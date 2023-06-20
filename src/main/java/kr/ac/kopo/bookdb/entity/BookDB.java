@@ -6,6 +6,7 @@ import org.checkerframework.checker.units.qual.C;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -33,7 +34,7 @@ public class BookDB extends BaseEntity{
 
     // 발매일
     @Column(name = "releasedate")
-    private LocalDate releasedata;
+    private LocalDate releasedate;
 
     // 가격
     @Column(name = "price")

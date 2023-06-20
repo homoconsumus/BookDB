@@ -3,7 +3,79 @@
 
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
   <th:block th:fragment="content">
-    <h1 class="mt-4">BOOKDATABASE</h1>
-  <th:block>
-<th:block>
+    <h1 class="mt-4"><b>BOOKDATABASE</b>
+      <span>
+      <a th:href="@{/bookdb/register}">
+        <button type="button" class="btn btn-outline-primary">
+          새로운 책을 등록하기
+        </button>
+      </a>
+      </span>
+    </h1>
+
+    <hr>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">제목</th>
+        <th scope="col">저자</th>
+        <th scope="col">출판사</th>
+        <th scope="col">발매일</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="dto : ${result.dtoList}">
+        <th scope="row">
+          <a th:href="@{/bookdb/read(bno = ${dto.bno}, page=${result.page})}">
+            [[${dto.bno}]]
+          </a>
+        </th>
+        <td>[[${dto.title}]]</td>
+        <td>[[${dto.writer}]]</td>
+        <td>[[${dto.publisher}]]</td>
+        <td>[[${#temporals.format(dto.releasedate, 'yyyy-MM-dd')}]]</td>
+      </tr>
+      </tbody>
+    </table>
+    <ul class="pagination h-100 justify-content-center align-items-center">
+      <li class="page-item" th:if="${result.prev}">
+        <a class="page-link" th:href="@{/bookdb/list(page=${result.start - 1})}" tabindex="-1"><b>이전</b></a>
+      </li>
+      <li th:class="'page-item ' + ${result.page==page?'active':''}" th:each="page:${result.pageList}">
+        <a class="page-link" href="#">
+          [[${page}]]
+        </a>
+      </li>
+      <li class="page-item" th:if="${result.next}">
+        <a class="page-link" th:href="@{/bookdb/list(page=${result.end + 1})}" tabindex="-1"><b>다음</b></a>
+      </li>
+    </ul>
+    <hr>
+    <!--    모달창 만들기-->
+    <div class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">[[${msg}]]</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()"></button>
+          </div>
+          <div class="modal-body">
+            <p>책 정보를 데이터베이스에 등록했습니다.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="$('.modal').hide()">확인했습니다</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script th:inline="javascript">
+      var msg = [[${msg}]];
+      console.log(msg);
+      if (msg){
+        $(".modal").show();
+      }
+    </script>
+  </th:block>
+</th:block>
 </html>

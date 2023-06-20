@@ -16,6 +16,6 @@ public class BookDBDTO {
     private String title;
     private String writer;
     private String publisher;
-    private LocalDate releasedata;
+    private LocalDate releasedate;
     private Long price;
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+  <th:block th:fragment="content">
+    <h1 class="mt-4"><b>책 정보를 등록하고 있습니다.</b></h1>
+    <form th:action="@{/bookdb/register}" th:method="post">
+      <div class="form-group">
+        <label>제목</label>
+        <input type="text" class="form-control" name="title" placeholder="책의 제목을 입력하세요">
+      </div>
+      <div class="form-group">
+        <label>저자</label>
+        <input type="text" class="form-control" name="writer" placeholder="책의 저자를 입력하세요">
+      </div>
+      <div class="form-group">
+        <label>출판사</label>
+        <input type="text" class="form-control" name="publisher" placeholder="책의 출판사를 입력하세요">
+      </div>
+      <div class="form-group">
+        <label>발매가</label>
+        <input type="number" class="form-control" name="price" placeholder="책의 가격을 입력하세요">
+      </div>
+      <div class="form-group">
+        <label>발매일을 선택해주세요</label>
+        <input type="date" name="releasedate" th:releasedate="${releasedate}">
+      </div>
+      <button type="submit" class="btn btn-primary">이대로 등록</button>
+    </form>
+  </th:block>
+</th:block>
+</html>
