@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <h1 class="mt-4"><b><span>[[${dto.bno}]]</span>번 책 정보를 수정하고 있습니다.</b></h1>
+        <form th:action="@{/bookdb/modify}" th:method="post">
+            <input type="hidden" name="bno" th:value="${dto.bno}">
+            <input type="hidden" name="page" th:value="${requestDTO.page}">
+            <input type="hidden" name="type" th:value="${requestDTO.type}">
+            <input type="hidden" name="keyword_title" th:value="${requestDTO.keyword_title}">
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" class="form-control" name="title" th:value="${dto.title}">
+            </div>
+            <div class="form-group">
+                <label>저자</label>
+                <input type="text" class="form-control" name="writer" th:value="${dto.writer}">
+            </div>
+            <div class="form-group">
+                <label>출판사</label>
+                <input type="text" class="form-control" name="publisher" th:value="${dto.publisher}">
+            </div>
+            <div class="form-group">
+                <label>발매가</label>
+                <input type="number" class="form-control" name="price" th:value="${dto.price}">
+            </div>
+            <div class="form-group">
+                <label>발매일을 선택해주세요</label>
+                <input type="date" name="releasedate" th:releasedate="${releasedate}">
+            </div>
+        </form>
+        <button type="button" class="btn btn-primary modifyBtn">이대로 고치기</button>
+        <button type="button" class="btn btn-info listBtn">취소하고 목록으로</button>
+        <button type="button" class="btn btn-danger removeBtn">기록을 지우기</button>
+    </th:block>
+</th:block>
+<script th:inline="javascript">
+    var actionForm = $("form");
+    $(".removeBtn").click(function (){
+        if(!confirm("이 자료를 정말로 삭제하시겠습니까?")){
+            return;
+        }
+        actionForm
+            .attr("action", "/bookdb/remove")
+            .attr("method", "post");
+        actionForm.submit();
+    })
+    $(".modifyBtn").click(function (){
+        if(!confirm("정말 이대로 수정하시겠습니까?")){
+            return;
+        }
+        actionForm
+            .attr("action", "/bookdb/modify")
+            .attr("method", "post")
+            .submit();
+    })
+    $(".listBtn").click(function (){
+        var page = $("input[name='page']");
+        var type = $("input[name='type']");
+        var keyword_title = $("input[name='keyword_title']");
+        actionForm.empty();
+        actionForm.append(page);
+        actionForm.append(type);
+        actionForm.append(keyword_title);
+        actionForm
+            .attr("action", "/bookdb/list")
+            .attr("method", "get")
+        console.log(actionForm.html());
+        actionForm.submit();
+    })
+</script>
+</html>

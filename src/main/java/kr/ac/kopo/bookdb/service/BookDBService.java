@@ -11,6 +11,8 @@ public interface BookDBService {
     Long register(BookDBDTO dto);
     PageResultDTO<BookDBDTO, BookDB> getList(PageRequestDTO requestDTO);
     BookDBDTO read(Long bno);
+    void remove(Long bno);
+    void modify(BookDBDTO dto);
 
     default BookDB dtoToEntity(BookDBDTO dto){
         BookDB entity = BookDB.builder()

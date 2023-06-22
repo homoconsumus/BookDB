@@ -13,10 +13,12 @@ import org.springframework.data.domain.Sort;
 public class PageRequestDTO {
     private int page;
     private int size;
+    private String type;
+    private String keyword_title;
 
     public PageRequestDTO(){
         this.page = 1;
-        this.size = 20;
+        this.size = 5;
     }
 
     public Pageable getPageable(Sort sort){

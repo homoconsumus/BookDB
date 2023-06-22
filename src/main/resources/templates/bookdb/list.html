@@ -12,7 +12,26 @@
       </a>
       </span>
     </h1>
-
+    <form action="/bookdb/list" method="get" id="searchForm">
+      <div class="input-group">
+        <input type="hidden" name="page" th:value="1">
+        <div class="input-group-sm">
+          <select class="form-select-sm" name="type">
+            <option th:selected="${pageRequestDTO.type == null}">---------------</option>
+            <option th:selected="${pageRequestDTO.type == 't'}" value="t">제목</option>
+            <option th:selected="${pageRequestDTO.type == 'w'}" value="w">저자</option>
+            <option th:selected="${pageRequestDTO.type == 'tw'}" value="tw">제목 + 저자</option>
+            <option th:selected="${pageRequestDTO.type == 'p'}" value="p">출판사</option>
+            <option th:selected="${pageRequestDTO.type == 'twp'}" value="twp">제목 + 내용 + 출판사</option>
+          </select>
+        </div>
+        <input class="form-control-sm" name="keyword_title" th:value="${pageRequestDTO.keyword_title}">
+        <div class="input-group-sm" id="button-addon4">
+          <button class="btn-outline-secondary btn-search">검색</button>
+          <button class="btn-outline-secondary btn-clear">정정</button>
+        </div>
+      </div>
+    </form>
     <hr>
     <table class="table table-striped">
       <thead>
@@ -27,7 +46,7 @@
       <tbody>
       <tr th:each="dto : ${result.dtoList}">
         <th scope="row">
-          <a th:href="@{/bookdb/read(bno = ${dto.bno}, page=${result.page})}">
+          <a th:href="@{/bookdb/read(bno = ${dto.bno}, page=${result.page}, type=${pageRequestDTO.type}, keyword_title=${pageRequestDTO.keyword_title})}">
             [[${dto.bno}]]
           </a>
         </th>
@@ -40,15 +59,15 @@
     </table>
     <ul class="pagination h-100 justify-content-center align-items-center">
       <li class="page-item" th:if="${result.prev}">
-        <a class="page-link" th:href="@{/bookdb/list(page=${result.start - 1})}" tabindex="-1"><b>이전</b></a>
+        <a class="page-link" th:href="@{/bookdb/list(page=${result.start - 1}, size=${result.size}, type=${pageRequestDTO.type}, keyword_title=${pageRequestDTO.keyword_title})}" tabindex="-1"><b>이전</b></a>
       </li>
       <li th:class="'page-item ' + ${result.page==page?'active':''}" th:each="page:${result.pageList}">
-        <a class="page-link" href="#">
+        <a class="page-link" th:href="@{/bookdb/list(page=${page}, size=${result.size}, type=${pageRequestDTO.type}, keyword_title=${pageRequestDTO.keyword_title})}">
           [[${page}]]
         </a>
       </li>
       <li class="page-item" th:if="${result.next}">
-        <a class="page-link" th:href="@{/bookdb/list(page=${result.end + 1})}" tabindex="-1"><b>다음</b></a>
+        <a class="page-link" th:href="@{/bookdb/list(page=${result.end + 1}, size=${result.size}, type=${pageRequestDTO.type}, keyword_title=${pageRequestDTO.keyword_title})}" tabindex="-1"><b>다음</b></a>
       </li>
     </ul>
     <hr>
@@ -69,13 +88,20 @@
         </div>
       </div>
     </div>
-    <script th:inline="javascript">
-      var msg = [[${msg}]];
-      console.log(msg);
-      if (msg){
-        $(".modal").show();
-      }
-    </script>
   </th:block>
 </th:block>
+<script th:inline="javascript">
+  var msg = [[${msg}]];
+  console.log(msg);
+  if (msg){
+    $(".modal").show();
+  }
+  var searchForm = $("#searchForm");
+  $(".btn-search").click(function () {
+    searchForm.submit();
+  });
+  $(".btn-clear").click(function () {
+    searchForm.empty().submit();
+  });
+</script>
 </html>

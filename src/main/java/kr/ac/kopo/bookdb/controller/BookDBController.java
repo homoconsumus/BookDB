@@ -50,10 +50,29 @@ public class BookDBController {
         return "redirect:/bookdb/list";
     }
 
-    @GetMapping("/read")
+    @GetMapping({"/read", "/modify"})
     public void read(long bno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model){
-        log.info("bno: " + bno);
+        log.info("bno: " + bno + "조회 수행");
         BookDBDTO dto = service.read(bno);
         model.addAttribute("dto", dto);
+    }
+
+    @PostMapping("/remove")
+    public String remove(long bno, RedirectAttributes redirectAttributes){
+        log.info("bno: " + bno + "삭제 수행");
+        service.remove(bno);
+        redirectAttributes.addFlashAttribute("msg", bno);
+        return "redirect:/bookdb/list";
+    }
+
+    @PostMapping("/modify")
+    public String modify(long bno, BookDBDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes){
+        log.info("bno: " + bno + "수정 수행");
+        service.modify(dto);
+        redirectAttributes.addAttribute("page", requestDTO.getPage());
+        redirectAttributes.addAttribute("bno", dto.getBno());
+        redirectAttributes.addAttribute("type", requestDTO.getType());
+        redirectAttributes.addAttribute("keyword_title", requestDTO.getKeyword_title());
+        return "redirect:/bookdb/read";
     }
 }

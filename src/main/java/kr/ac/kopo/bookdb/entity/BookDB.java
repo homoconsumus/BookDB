@@ -40,4 +40,9 @@ public class BookDB extends BaseEntity{
     @Column(name = "price")
     private Long price;
 
+    public void changeTitle(String title){this.title = title;}
+    public void changeWriter(String writer){this.writer = writer;}
+    public void changePublisher(String publisher){this.publisher = publisher;}
+    public void changeReleasedate(LocalDate releasedate){this.releasedate = releasedate;}
+    public void changePrice(Long price){this.price = price;}
 }
