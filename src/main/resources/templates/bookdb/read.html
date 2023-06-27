@@ -19,10 +19,10 @@
         <b>발매일: </b>[[${dto.releasedate}]]
       </div>
     <hr>
-    <a th:href="@{/bookdb/modify(bno = ${dto.bno}, page=${requestDTO.page}, type=${pageRequestDTO.type}, keyword_title=${pageRequestDTO.keyword_title})}">
+    <a th:href="@{/bookdb/modify(bno = ${dto.bno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword_title=${requestDTO.keyword_title})}">
       <button type="button" class="btn btn-primary">고치기</button>
     </a>
-    <a th:href="@{/bookdb/list(page=${requestDTO.page}, type=${pageRequestDTO.type}, keyword_title=${pageRequestDTO.keyword_title})}">
+    <a th:href="@{/bookdb/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword_title=${requestDTO.keyword_title})}">
       <button type="button" class="btn btn-info">목록으로</button>
     </a>
   </th:block>
